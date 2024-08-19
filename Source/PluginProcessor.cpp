@@ -5,10 +5,10 @@
 
   ==============================================================================
 */
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 #include "Parameters.h"
+
 
 //==============================================================================
 MonaLisaAudioProcessor::MonaLisaAudioProcessor():
@@ -92,6 +92,22 @@ void MonaLisaAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
 {
     params.prepareToPlay(sampleRate);
     params.reset();
+    
+    // initialize the waveshaper using a lambda function from -0.1 to 0.1
+    waveShaper.functionToUse = [] (float x)
+    {
+        return std::tanh(x);
+    };
+    /*
+    juce::dsp::ProcessSpec spec;
+    spec.sampleRate = sampleRate;
+    spec.maximumBlockSize = juce::uint32(samplesPerBlock);
+    spec.numChannels = 2;
+    
+    processorChain.prepare(spec);
+    
+    processorChain.reset()
+    */
 }
 
 void MonaLisaAudioProcessor::releaseResources()
@@ -136,9 +152,28 @@ void MonaLisaAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[m
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
     {
         params.smoothen();
+      
+        // read incoming audio into new variables
+        float dryL = channelDataL[sample];
+        float dryR = channelDataR[sample];
         
-        channelDataL[sample] *= params.gain;
-        channelDataR[sample] *= params.gain;
+        // process the incoming audio into a wet channel
+        float wetL = dryL * juce::Decibels::decibelsToGain(params.drive);
+        float wetR = dryR * juce::Decibels::decibelsToGain(params.drive);
+        
+        wetL = waveShaper.processSample(wetL);
+        wetR = waveShaper.processSample(wetR);
+        
+        wetL = wetL * juce::Decibels::decibelsToGain(-params.drive * 0.7);
+        wetR = wetR * juce::Decibels::decibelsToGain(-params.drive * 0.7);
+        
+        // blend
+        float mixL = (( dryL * (-params.mix + 1)) + (wetL * params.mix));
+        float mixR = (( dryR * (-params.mix + 1)) + (wetR * params.mix));
+        
+        channelDataL[sample] = mixL * params.gain;
+        channelDataR[sample] = mixR * params.gain;
+
     }
     
 }

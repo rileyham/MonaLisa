@@ -11,6 +11,11 @@
 #pragma once
 #include <JuceHeader.h>
 
+// parameter id constants
+const juce::ParameterID gainParamID {"gain", 1};
+const juce::ParameterID mixParamID {"mix", 1};
+const juce::ParameterID driveParamID {"drive", 1};
+
 class Parameters
 {
 public:
@@ -23,8 +28,16 @@ public:
     void smoothen() noexcept;
     
     float gain = 0.0f;
+    float mix = 1.0f;
+    float drive = 0.0f;
     
 private:
     juce::AudioParameterFloat* gainParam;
     juce::LinearSmoothedValue<float> gainSmoother;
+    
+    juce::AudioParameterFloat* mixParam;
+    juce::LinearSmoothedValue<float> mixSmoother;
+    
+    juce::AudioParameterFloat* driveParam;
+    juce::LinearSmoothedValue<float> driveSmoother;
 };

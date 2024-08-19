@@ -6,10 +6,12 @@
   ==============================================================================
 */
 
+
 #pragma once
 
 #include <JuceHeader.h>
 #include "Parameters.h"
+
 
 //==============================================================================
 /**
@@ -62,4 +64,7 @@ private:
         *this, nullptr, "Parameters", Parameters::createParameterLayout()
     };
     Parameters params;
+    juce::dsp::WaveShaper<float> waveShaper;
+     
 };
+
