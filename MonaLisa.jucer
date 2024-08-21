@@ -4,6 +4,8 @@
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="umpmcD" name="MonaLisa">
     <GROUP id="{B5A67899-9574-CA94-456F-7D82B6FFEF11}" name="Source">
+      <FILE id="Ai5mHI" name="RotaryKnob.cpp" compile="1" resource="0" file="Source/RotaryKnob.cpp"/>
+      <FILE id="InnU7b" name="RotaryKnob.h" compile="0" resource="0" file="Source/RotaryKnob.h"/>
       <FILE id="CF9iSE" name="Parameters.cpp" compile="1" resource="0" file="Source/Parameters.cpp"/>
       <FILE id="sjEA6r" name="Parameters.h" compile="0" resource="0" file="Source/Parameters.h"/>
       <FILE id="ofiIoM" name="PluginProcessor.cpp" compile="1" resource="0"
