@@ -3,6 +3,21 @@
 <JUCERPROJECT id="UrPRIx" name="MonaLisa" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1">
   <MAINGROUP id="umpmcD" name="MonaLisa">
+    <GROUP id="{286FB216-3ADF-D300-B31F-501338BF9265}" name="Assets">
+      <FILE id="nJZuur" name="UnifrakturMaguntia-Regular.ttf" compile="0"
+            resource="1" file="../../../Downloads/UnifrakturMaguntia/UnifrakturMaguntia-Regular.ttf"/>
+      <FILE id="UKMVJ6" name="Jaini-Regular.ttf" compile="0" resource="1"
+            file="../../../Downloads/Jaini/Jaini-Regular.ttf"/>
+      <FILE id="PfDaTA" name="NovaMono-Regular.ttf" compile="0" resource="1"
+            file="../../../Downloads/Nova_Mono/NovaMono-Regular.ttf"/>
+      <FILE id="oXhwlQ" name="JosefinSans-Regular.ttf" compile="0" resource="1"
+            file="../../../Downloads/Josefin_Sans/static/JosefinSans-Regular.ttf"/>
+      <FILE id="bb6g3H" name="BodoniModa_28pt-ExtraBoldItalic.ttf" compile="0"
+            resource="1" file="../../../Downloads/Bodoni_Moda/static/BodoniModa_28pt-ExtraBoldItalic.ttf"/>
+      <FILE id="L9ecjk" name="Noise.png" compile="0" resource="1" file="Noise.png"/>
+      <FILE id="LFmo1E" name="GrenzeGotisch-Light.ttf" compile="0" resource="1"
+            file="../../../Downloads/Grenze_Gotisch/static/GrenzeGotisch-Light.ttf"/>
+    </GROUP>
     <GROUP id="{B5A67899-9574-CA94-456F-7D82B6FFEF11}" name="Source">
       <FILE id="Ai5mHI" name="RotaryKnob.cpp" compile="1" resource="0" file="Source/RotaryKnob.cpp"/>
       <FILE id="InnU7b" name="RotaryKnob.h" compile="0" resource="0" file="Source/RotaryKnob.h"/>
@@ -16,6 +31,8 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="PNP2Ua" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
     </GROUP>
+    <FILE id="oAWPZZ" name="LookAndFeel.cpp" compile="1" resource="0" file="Source/LookAndFeel.cpp"/>
+    <FILE id="QFRGYl" name="LookAndFeel.h" compile="0" resource="0" file="Source/LookAndFeel.h"/>
   </MAINGROUP>
   <MODULES>
     <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

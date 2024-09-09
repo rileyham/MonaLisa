@@ -15,6 +15,9 @@
 MonaLisaAudioProcessorEditor::MonaLisaAudioProcessorEditor (MonaLisaAudioProcessor& p)
     : AudioProcessorEditor (&p), audioProcessor (p)
 {
+    // Set look and feel
+    setLookAndFeel(&mainLF);
+    
     // Distortion group
     distortionGroup.setText("Distortion");
     distortionGroup.setTextLabelPosition(juce::Justification::horizontallyCentred);
@@ -35,31 +38,37 @@ MonaLisaAudioProcessorEditor::MonaLisaAudioProcessorEditor (MonaLisaAudioProcess
 
 MonaLisaAudioProcessorEditor::~MonaLisaAudioProcessorEditor()
 {
+    setLookAndFeel(nullptr);
 }
 
 //==============================================================================
 void MonaLisaAudioProcessorEditor::paint (juce::Graphics& g)
 {
-    // Plugin Header
+    g.setColour(Colors::background);
+    g.fillAll();
     
-    g.fillAll (juce::Colours::lightpink);
-
     /*
-    g.setColour (juce::Colours::firebrick);
-    juce::Font bodoni ("Bodoni 72", "Book Italic", 50.0f);
-    g.setFont(bodoni);
-    g.drawFittedText ("MONA LISA", getLocalBounds(), juce::Justification::centred, 1);
+    // add a noise texture to the background
+    auto noise = juce::ImageCache::getFromMemory(BinaryData::Noise_png, BinaryData::Noise_pngSize);
+    noise.multiplyAllAlphas(0.3f);
+    auto fillType = juce::FillType(noise, juce::AffineTransform::scale(0.5));
+    g.setFillType(fillType);
+    g.fillRect(getLocalBounds());
      */
     
-    // Distortion group
+    // draw header text
+    g.setColour(Colors::header);
+    g.setFont(Fonts::getHeaderFont());
+    g.drawText("Mona Lisa", 0, 5, getLocalBounds().getWidth(), 40, juce::Justification::centred);
+
 }
 
 void MonaLisaAudioProcessorEditor::resized()
 {
     auto bounds = getLocalBounds();
     
-    int y = 10;
-    int height = bounds.getHeight() - 20;
+    int y = 50;
+    int height = bounds.getHeight() - 60;
     
     // position the groups
     distortionGroup.setBounds(10, y, 110, height);

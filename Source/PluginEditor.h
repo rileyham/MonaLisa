@@ -12,6 +12,7 @@
 #include "PluginProcessor.h"
 #include "Parameters.h"
 #include "RotaryKnob.h"
+#include "LookAndFeel.h"
 
 //==============================================================================
 /**
@@ -31,11 +32,13 @@ private:
     // access the processor object that created it.
     MonaLisaAudioProcessor& audioProcessor;
     
-    RotaryKnob gainKnob {"Gain", audioProcessor.apvts, gainParamID};
+    RotaryKnob gainKnob {"Gain", audioProcessor.apvts, gainParamID, true};
     RotaryKnob mixKnob {"Mix", audioProcessor.apvts, mixParamID};
     RotaryKnob driveKnob {"Drive", audioProcessor.apvts, driveParamID};
     
     juce::GroupComponent distortionGroup, outputGroup;
 
+    MainLookAndFeel mainLF;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MonaLisaAudioProcessorEditor)
 };
