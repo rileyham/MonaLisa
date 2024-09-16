@@ -15,6 +15,8 @@
 const juce::ParameterID gainParamID {"gain", 1};
 const juce::ParameterID mixParamID {"mix", 1};
 const juce::ParameterID driveParamID {"drive", 1};
+const juce::ParameterID lowCutParamID {"lowCut", 1};
+const juce::ParameterID highCutParamID {"highCut", 1};
 
 class Parameters
 {
@@ -30,6 +32,8 @@ public:
     float gain = 0.0f;
     float mix = 1.0f;
     float drive = 0.0f;
+    float lowCut = 20.0f;
+    float highCut = 20000.0f;
     
 private:
     juce::AudioParameterFloat* gainParam;
@@ -40,4 +44,10 @@ private:
     
     juce::AudioParameterFloat* driveParam;
     juce::LinearSmoothedValue<float> driveSmoother;
+    
+    juce::AudioParameterFloat* lowCutParam;
+    juce::LinearSmoothedValue<float> lowCutSmoother;
+    
+    juce::AudioParameterFloat* highCutParam;
+    juce::LinearSmoothedValue<float> highCutSmoother;
 };

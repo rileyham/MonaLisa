@@ -24,6 +24,13 @@ MonaLisaAudioProcessorEditor::MonaLisaAudioProcessorEditor (MonaLisaAudioProcess
     distortionGroup.addAndMakeVisible(driveKnob);
     addAndMakeVisible(distortionGroup);
     
+    // Filter grouo
+    filterGroup.setText("Filter");
+    filterGroup.setTextLabelPosition(juce::Justification::horizontallyCentred);
+    filterGroup.addAndMakeVisible(lowCutKnob);
+    filterGroup.addAndMakeVisible(highCutKnob);
+    addAndMakeVisible(filterGroup);
+    
     // Output group
     outputGroup.setText("Output");
     outputGroup.setTextLabelPosition(juce::Justification::horizontallyCentred);
@@ -33,7 +40,7 @@ MonaLisaAudioProcessorEditor::MonaLisaAudioProcessorEditor (MonaLisaAudioProcess
     
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (290, 330);
+    setSize (410, 330);
 }
 
 MonaLisaAudioProcessorEditor::~MonaLisaAudioProcessorEditor()
@@ -46,15 +53,6 @@ void MonaLisaAudioProcessorEditor::paint (juce::Graphics& g)
 {
     g.setColour(Colors::background);
     g.fillAll();
-    
-    /*
-    // add a noise texture to the background
-    auto noise = juce::ImageCache::getFromMemory(BinaryData::Noise_png, BinaryData::Noise_pngSize);
-    noise.multiplyAllAlphas(0.3f);
-    auto fillType = juce::FillType(noise, juce::AffineTransform::scale(0.5));
-    g.setFillType(fillType);
-    g.fillRect(getLocalBounds());
-     */
     
     // draw header text
     g.setColour(Colors::header);
@@ -73,9 +71,14 @@ void MonaLisaAudioProcessorEditor::resized()
     // position the groups
     distortionGroup.setBounds(10, y, 110, height);
     outputGroup.setBounds(bounds.getWidth() - 160, y, 150, height);
+    filterGroup.setBounds(distortionGroup.getRight() + 10, y, 110, height);
     
     // position the knobs inside the groups
     driveKnob.setTopLeftPosition(20, 20);
+    
+    lowCutKnob.setTopLeftPosition(20, 20);
+    highCutKnob.setTopLeftPosition(20, lowCutKnob.getBottom() + 10);
+    
     mixKnob.setTopLeftPosition(20, 20);
     gainKnob.setTopLeftPosition(mixKnob.getX(), mixKnob.getBottom() + 10);
 }

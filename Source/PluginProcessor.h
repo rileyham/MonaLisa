@@ -66,6 +66,13 @@ private:
     
     Parameters params;
     juce::dsp::WaveShaper<float> waveShaper;
+    
+    juce::dsp::StateVariableTPTFilter<float> lowCutFilter;
+    juce::dsp::StateVariableTPTFilter<float> highCutFilter;
      
+    
+    // -1.0 = special value declaring: "No frequency set yet"
+    float lastLowCut = -1.0f;
+    float lastHighCut = -1.0f;
 };
 

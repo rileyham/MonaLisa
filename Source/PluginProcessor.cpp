@@ -19,6 +19,9 @@ MonaLisaAudioProcessor::MonaLisaAudioProcessor():
     ),
     params(apvts) // initializes the parameters object
 {
+    // configure the SVT filters
+     lowCutFilter.setType(juce::dsp::StateVariableTPTFilterType::highpass);
+     highCutFilter.setType(juce::dsp::StateVariableTPTFilterType::lowpass);
 }
 
 MonaLisaAudioProcessor::~MonaLisaAudioProcessor()
@@ -98,16 +101,19 @@ void MonaLisaAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     {
         return std::tanh(x);
     };
-    /*
     juce::dsp::ProcessSpec spec;
     spec.sampleRate = sampleRate;
     spec.maximumBlockSize = juce::uint32(samplesPerBlock);
     spec.numChannels = 2;
     
-    processorChain.prepare(spec);
+    lowCutFilter.prepare(spec);
+    highCutFilter.prepare(spec);
     
-    processorChain.reset()
-    */
+    lowCutFilter.reset();
+    highCutFilter.reset();
+    
+    lastLowCut = -1.0f;
+    lastHighCut = -1.0f;
 }
 
 void MonaLisaAudioProcessor::releaseResources()
@@ -153,6 +159,16 @@ void MonaLisaAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[m
     {
         params.smoothen();
       
+        // update filter cutoff
+        if (params.lowCut != lastLowCut) {
+            lowCutFilter.setCutoffFrequency(params.lowCut);
+            lastLowCut = params.lowCut;
+        }
+        if (params.highCut != lastHighCut) {
+            highCutFilter.setCutoffFrequency(params.highCut);
+            lastHighCut = params.highCut;
+        }
+        
         // read incoming audio into new variables
         float dryL = channelDataL[sample];
         float dryR = channelDataR[sample];
@@ -163,6 +179,12 @@ void MonaLisaAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[m
         
         wetL = waveShaper.processSample(wetL);
         wetR = waveShaper.processSample(wetR);
+        
+        wetL = lowCutFilter.processSample(0, wetL);
+        wetR = lowCutFilter.processSample(1, wetR);
+        
+        wetL = highCutFilter.processSample(0, wetL);
+        wetR = highCutFilter.processSample(2, wetR);
         
         wetL = wetL * juce::Decibels::decibelsToGain(-params.drive * 0.7);
         wetR = wetR * juce::Decibels::decibelsToGain(-params.drive * 0.7);

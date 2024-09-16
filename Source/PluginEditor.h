@@ -35,8 +35,10 @@ private:
     RotaryKnob gainKnob {"Gain", audioProcessor.apvts, gainParamID, true};
     RotaryKnob mixKnob {"Mix", audioProcessor.apvts, mixParamID};
     RotaryKnob driveKnob {"Drive", audioProcessor.apvts, driveParamID};
+    RotaryKnob lowCutKnob {"Low Cut", audioProcessor.apvts, lowCutParamID};
+    RotaryKnob highCutKnob {"High Cut", audioProcessor.apvts, highCutParamID};
     
-    juce::GroupComponent distortionGroup, outputGroup;
+    juce::GroupComponent distortionGroup, filterGroup, outputGroup;
 
     MainLookAndFeel mainLF;
     
