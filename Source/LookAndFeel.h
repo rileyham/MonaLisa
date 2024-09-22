@@ -36,6 +36,15 @@ namespace Colors
         const juce::Colour label {0xFFBFA6B6};
         const juce::Colour outline {0xFF8C7D88};
     }
+
+    namespace LevelMeter
+    {
+        const juce::Colour background {0xFF293132};
+        const juce::Colour tickLine {0xFF8C7D88};
+        const juce::Colour tickLabel { 80, 80, 80 };
+        const juce::Colour tooLoud { 226, 74, 81 };
+        const juce::Colour levelOK { 65, 206, 88 };
+    }
 }
 
 class Fonts

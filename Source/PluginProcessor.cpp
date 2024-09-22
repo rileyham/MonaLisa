@@ -114,6 +114,9 @@ void MonaLisaAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlo
     
     lastLowCut = -1.0f;
     lastHighCut = -1.0f;
+    
+    levelL.reset();
+    levelR.reset();
 }
 
 void MonaLisaAudioProcessor::releaseResources()
@@ -154,6 +157,15 @@ void MonaLisaAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[m
     
     float* channelDataL = buffer.getWritePointer(0);
     float* channelDataR = buffer.getWritePointer(1);
+    
+    auto mainOutput = getBusBuffer(buffer, false, 0);
+    auto mainOutputChannels = mainOutput.getNumChannels();
+    auto isMainOutputStereo = mainOutputChannels > 1;
+    float* outputDataL = mainOutput.getWritePointer(0);
+    float* outputDataR = mainOutput.getWritePointer(isMainOutputStereo ? 1 : 0);
+    
+    float maxL = 0.0f;
+    float maxR = 0.0f;
 
     for (int sample = 0; sample < buffer.getNumSamples(); ++sample)
     {
@@ -184,7 +196,7 @@ void MonaLisaAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[m
         wetR = lowCutFilter.processSample(1, wetR);
         
         wetL = highCutFilter.processSample(0, wetL);
-        wetR = highCutFilter.processSample(2, wetR);
+        wetR = highCutFilter.processSample(1, wetR);
         
         wetL = wetL * juce::Decibels::decibelsToGain(-params.drive * 0.7);
         wetR = wetR * juce::Decibels::decibelsToGain(-params.drive * 0.7);
@@ -193,10 +205,20 @@ void MonaLisaAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[m
         float mixL = (( dryL * (-params.mix + 1)) + (wetL * params.mix));
         float mixR = (( dryR * (-params.mix + 1)) + (wetR * params.mix));
         
-        channelDataL[sample] = mixL * params.gain;
-        channelDataR[sample] = mixR * params.gain;
+        float outL = mixL * params.gain;
+        float outR = mixR * params.gain;
+        
+        outputDataL[sample] = outL;
+        outputDataR[sample] = outR;
+        
+        maxL = std::max(maxL, std::abs(outL));
+        maxR = std::max(maxR, std::abs(outR));
 
     }
+    
+    // store level in the atomic variables
+    levelL.updateIfGreater(maxL);
+    levelR.updateIfGreater(maxR);
     
 }
 

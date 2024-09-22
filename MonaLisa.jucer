@@ -19,6 +19,9 @@
             file="../../../Downloads/Grenze_Gotisch/static/GrenzeGotisch-Light.ttf"/>
     </GROUP>
     <GROUP id="{B5A67899-9574-CA94-456F-7D82B6FFEF11}" name="Source">
+      <FILE id="yT2x19" name="Measurement.h" compile="0" resource="0" file="Source/Measurement.h"/>
+      <FILE id="IYGj0F" name="LevelMeter.cpp" compile="1" resource="0" file="Source/LevelMeter.cpp"/>
+      <FILE id="WMYuPG" name="LevelMeter.h" compile="0" resource="0" file="Source/LevelMeter.h"/>
       <FILE id="Ai5mHI" name="RotaryKnob.cpp" compile="1" resource="0" file="Source/RotaryKnob.cpp"/>
       <FILE id="InnU7b" name="RotaryKnob.h" compile="0" resource="0" file="Source/RotaryKnob.h"/>
       <FILE id="CF9iSE" name="Parameters.cpp" compile="1" resource="0" file="Source/Parameters.cpp"/>

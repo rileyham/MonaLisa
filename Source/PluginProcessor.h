@@ -11,6 +11,7 @@
 
 #include <JuceHeader.h>
 #include "Parameters.h"
+#include "Measurement.h"
 
 
 //==============================================================================
@@ -60,11 +61,14 @@ public:
         *this, nullptr, "Parameters", Parameters::createParameterLayout()
     };
 
+    Measurement levelL, levelR;
+    
 private:
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MonaLisaAudioProcessor)
     
     Parameters params;
+    
     juce::dsp::WaveShaper<float> waveShaper;
     
     juce::dsp::StateVariableTPTFilter<float> lowCutFilter;

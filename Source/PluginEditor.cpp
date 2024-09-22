@@ -13,7 +13,7 @@
 
 //==============================================================================
 MonaLisaAudioProcessorEditor::MonaLisaAudioProcessorEditor (MonaLisaAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+    : AudioProcessorEditor (&p), audioProcessor (p), meter(p.levelL, p.levelR)
 {
     // Set look and feel
     setLookAndFeel(&mainLF);
@@ -36,6 +36,7 @@ MonaLisaAudioProcessorEditor::MonaLisaAudioProcessorEditor (MonaLisaAudioProcess
     outputGroup.setTextLabelPosition(juce::Justification::horizontallyCentred);
     outputGroup.addAndMakeVisible(gainKnob);
     outputGroup.addAndMakeVisible(mixKnob);
+    outputGroup.addAndMakeVisible(meter);
     addAndMakeVisible(outputGroup);
     
     // Make sure that before the constructor has finished, you've set the
@@ -81,4 +82,5 @@ void MonaLisaAudioProcessorEditor::resized()
     
     mixKnob.setTopLeftPosition(20, 20);
     gainKnob.setTopLeftPosition(mixKnob.getX(), mixKnob.getBottom() + 10);
+    meter.setBounds(outputGroup.getWidth() - 45, 30, 30, gainKnob.getBottom() - 30);
 }
