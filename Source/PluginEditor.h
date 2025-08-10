@@ -38,6 +38,11 @@ private:
     RotaryKnob driveKnob {"Drive", audioProcessor.apvts, driveParamID};
     RotaryKnob lowCutKnob {"Low Cut", audioProcessor.apvts, lowCutParamID};
     RotaryKnob highCutKnob {"High Cut", audioProcessor.apvts, highCutParamID};
+    juce::ImageButton bypassButton;
+    
+    juce::AudioProcessorValueTreeState::ButtonAttachment bypassAttachment {
+        audioProcessor.apvts, bypassParamID.getParamID(), bypassButton
+    };
     
     juce::GroupComponent distortionGroup, filterGroup, outputGroup;
 

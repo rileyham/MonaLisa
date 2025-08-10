@@ -60,7 +60,8 @@ public:
     juce::AudioProcessorValueTreeState apvts {
         *this, nullptr, "Parameters", Parameters::createParameterLayout()
     };
-
+    juce::AudioProcessorParameter* getBypassParameter() const override;
+    
     Measurement levelL, levelR;
     
 private:

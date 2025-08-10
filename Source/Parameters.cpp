@@ -54,6 +54,7 @@ Parameters::Parameters(juce::AudioProcessorValueTreeState &apvts)
     castParameter(apvts, driveParamID, driveParam);
     castParameter(apvts, lowCutParamID, lowCutParam);
     castParameter(apvts, highCutParamID, highCutParam);
+    castParameter(apvts, bypassParamID, bypassParam);
 }
 
 juce::AudioProcessorValueTreeState::ParameterLayout Parameters::createParameterLayout()
@@ -93,6 +94,9 @@ juce::AudioProcessorValueTreeState::ParameterLayout Parameters::createParameterL
                                                                     .withStringFromValueFunction(stringFromHz)
                                                                     .withValueFromStringFunction(hzFromString)
                                                            ));
+    layout.add(std::make_unique<juce::AudioParameterBool>(bypassParamID,
+                                                          "Bypass",
+                                                          false));
     
     
     return layout;
@@ -106,6 +110,7 @@ void Parameters::update() noexcept
     driveSmoother.setTargetValue(driveParam->get());
     lowCutSmoother.setTargetValue(lowCutParam->get());
     highCutSmoother.setTargetValue(highCutParam->get());
+    bypassed = bypassParam->get();
 }
 
 void Parameters::prepareToPlay(double sampleRate) noexcept

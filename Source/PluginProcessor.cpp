@@ -77,16 +77,16 @@ int MonaLisaAudioProcessor::getCurrentProgram()
     return 0;
 }
 
-void MonaLisaAudioProcessor::setCurrentProgram (int index)
+void MonaLisaAudioProcessor::setCurrentProgram (int)
 {
 }
 
-const juce::String MonaLisaAudioProcessor::getProgramName (int index)
+const juce::String MonaLisaAudioProcessor::getProgramName (int)
 {
     return {};
 }
 
-void MonaLisaAudioProcessor::changeProgramName (int index, const juce::String& newName)
+void MonaLisaAudioProcessor::changeProgramName (int, const juce::String&)
 {
 }
 
@@ -155,6 +155,9 @@ void MonaLisaAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[m
     // interleaved by keeping the same state.
     params.update();
     
+    // avoid processing if bypassed
+    if (params.bypassed) { return; }
+    
     float* channelDataL = buffer.getWritePointer(0);
     float* channelDataR = buffer.getWritePointer(1);
     
@@ -220,6 +223,11 @@ void MonaLisaAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, [[m
     levelL.updateIfGreater(maxL);
     levelR.updateIfGreater(maxR);
     
+}
+
+juce::AudioProcessorParameter* MonaLisaAudioProcessor::getBypassParameter() const
+{
+    return params.bypassParam;
 }
 
 //==============================================================================

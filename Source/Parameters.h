@@ -17,10 +17,11 @@ const juce::ParameterID mixParamID {"mix", 1};
 const juce::ParameterID driveParamID {"drive", 1};
 const juce::ParameterID lowCutParamID {"lowCut", 1};
 const juce::ParameterID highCutParamID {"highCut", 1};
+const juce::ParameterID bypassParamID {"bypass", 1};
 
 class Parameters
 {
-public:
+    public:
     Parameters(juce::AudioProcessorValueTreeState &apvts);
     static juce::AudioProcessorValueTreeState::ParameterLayout createParameterLayout();
     
@@ -34,6 +35,9 @@ public:
     float drive = 0.0f;
     float lowCut = 20.0f;
     float highCut = 20000.0f;
+    bool bypassed = false;
+    
+    juce::AudioParameterBool* bypassParam;
     
 private:
     juce::AudioParameterFloat* gainParam;

@@ -39,6 +39,17 @@ MonaLisaAudioProcessorEditor::MonaLisaAudioProcessorEditor (MonaLisaAudioProcess
     outputGroup.addAndMakeVisible(meter);
     addAndMakeVisible(outputGroup);
     
+    auto bypassIcon = juce::ImageCache::getFromMemory(BinaryData::Bypass_png, BinaryData::Bypass_pngSize);
+    bypassButton.setClickingTogglesState(true);
+    bypassButton.setBounds(0, 0, 20, 20);
+    bypassButton.setImages(
+                           false, true, true,
+                           bypassIcon, 1.0f, juce::Colours::white,
+                           bypassIcon, 1.0f, juce::Colours::white,
+                           bypassIcon, 1.0f, juce::Colours::grey,
+                           0.0f);
+    addAndMakeVisible(bypassButton);
+    
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     setSize (410, 330);
@@ -83,4 +94,6 @@ void MonaLisaAudioProcessorEditor::resized()
     mixKnob.setTopLeftPosition(20, 20);
     gainKnob.setTopLeftPosition(mixKnob.getX(), mixKnob.getBottom() + 10);
     meter.setBounds(outputGroup.getWidth() - 45, 30, 30, gainKnob.getBottom() - 30);
+    
+    bypassButton.setTopLeftPosition(bounds.getRight() - bypassButton.getWidth() - 10, 10);
 }
